@@ -179,20 +179,24 @@ Deno.serve(async (req) => {
     return json({ ok: false, error: "Database insert failed", details: insertError.message }, 500);
   }
 
-  const telegram = await notifyTelegram(insertedLead);
-  await supabase
-    .from("owner_stack_leads")
-    .update({
-      telegram_notified: telegram.ok,
-      telegram_message_id: telegram.messageId,
-      telegram_error: telegram.error || null,
-    })
-    .eq("id", insertedLead.id);
+  EdgeRuntime.waitUntil(
+    (async () => {
+      const telegram = await notifyTelegram(insertedLead);
+      await supabase
+        .from("owner_stack_leads")
+        .update({
+          telegram_notified: telegram.ok,
+          telegram_message_id: telegram.messageId,
+          telegram_error: telegram.error || null,
+        })
+        .eq("id", insertedLead.id);
+    })()
+  );
 
   return json({
     ok: true,
     leadId: insertedLead.id,
     database: { ok: true, status: "inserted" },
-    telegram,
+    telegram: { ok: true, status: "queued" },
   });
 });
