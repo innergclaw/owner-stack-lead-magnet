@@ -1,8 +1,14 @@
-# OwnYourWeb Lead Magnet
+# Owner Stack
 
 This folder contains a static website version of `The Owner Stack Starter Kit`.
 
 The visitor sees a popup email gate first. After they submit their name and email, the full Owner Stack details unlock on the same page.
+
+Live site:
+
+```text
+https://innergclaw.github.io/owner-stack/
+```
 
 ## Preview
 
