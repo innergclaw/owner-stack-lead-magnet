@@ -18,44 +18,38 @@ Then open:
 http://127.0.0.1:4173/
 ```
 
-## Email Capture
+## Supabase Lead Capture
 
-The form posts to Netlify Forms for lead collection and also posts to a Netlify Function at:
+The form posts to this Supabase Edge Function:
 
 ```text
-/.netlify/functions/owner-stack-lead
+https://zkyhhoxcrjkhywblzehr.supabase.co/functions/v1/owner-stack-lead
 ```
 
-That function sends a Telegram notification for each new lead. Local static preview keeps working without sending notifications.
+The function inserts each lead into:
 
-GitHub Pages can host the website, but it cannot run the Telegram function by itself. For Telegram notifications on a GitHub Pages site, deploy the included Netlify function or another secure backend, then set `TELEGRAM_ENDPOINT` in `script.js` to that full function URL.
+```text
+public.owner_stack_leads
+```
+
+RLS is enabled on the table and public table access is revoked. The browser never receives the service role key; inserts happen inside the Edge Function.
+
+The same Edge Function also sends Telegram notifications when `TELEGRAM_BOT_TOKEN` is set in Supabase secrets. It sends to `TELEGRAM_OWNER_STACK_CHAT_ID`, `TELEGRAM_CHAT_ID`, or the configured Owner Stack fallback chat.
 
 For ConvertKit, Mailchimp, Formspree, or a custom backend, set `FORM_ENDPOINT` in `script.js` to the provider's form endpoint.
 
-## Telegram Notifications
+## Supabase Secrets
 
-Create a Telegram bot with `@BotFather`, then set these environment variables in Netlify:
+Set these in Supabase Edge Function secrets:
 
 ```text
 TELEGRAM_BOT_TOKEN=your_bot_token
-TELEGRAM_CHAT_ID=your_chat_id
+TELEGRAM_OWNER_STACK_CHAT_ID=-1003997964845
 ```
 
 After those are set, each submitted lead will send a Telegram message with name, email, source, page URL, referrer, and submit time.
 
-Keep `TELEGRAM_BOT_TOKEN` out of `script.js`. It belongs only in Netlify environment variables.
-
-To test the function locally with Netlify CLI, run from this folder:
-
-```bash
-netlify dev
-```
-
-Then open:
-
-```text
-http://localhost:8888/
-```
+Keep `TELEGRAM_BOT_TOKEN` out of `script.js`. It belongs only in Supabase secrets.
 
 ## Reset Local Gate
 

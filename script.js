@@ -1,6 +1,6 @@
 const FORM_ENDPOINT = "";
-const TELEGRAM_ENDPOINT = "";
-const SAME_ORIGIN_TELEGRAM_ENDPOINT = "/.netlify/functions/owner-stack-lead";
+const SUPABASE_LEAD_ENDPOINT =
+  "https://zkyhhoxcrjkhywblzehr.supabase.co/functions/v1/owner-stack-lead";
 const UNLOCK_KEY = "ownerStackSiteUnlocked";
 
 const leadForm = document.querySelector("#leadForm");
@@ -41,27 +41,15 @@ function getLeadCollectionEndpoint() {
     return FORM_ENDPOINT;
   }
 
-  if (isStaticPreview() || isGithubPages()) {
-    return "";
+  if (SUPABASE_LEAD_ENDPOINT) {
+    return SUPABASE_LEAD_ENDPOINT;
   }
 
-  if (leadForm.dataset.netlify === "true") {
+  if (!isStaticPreview() && !isGithubPages() && leadForm.dataset.netlify === "true") {
     return "/";
   }
 
   return "";
-}
-
-function getTelegramEndpoint() {
-  if (TELEGRAM_ENDPOINT) {
-    return TELEGRAM_ENDPOINT;
-  }
-
-  if (isStaticPreview() || isGithubPages()) {
-    return "";
-  }
-
-  return SAME_ORIGIN_TELEGRAM_ENDPOINT;
 }
 
 function unlockStack({ shouldScroll = true } = {}) {
@@ -81,7 +69,7 @@ async function submitLead(formData) {
   formData.set("referrer", document.referrer || "Direct / unknown");
   formData.set("userAgent", navigator.userAgent);
 
-  const endpoints = [getLeadCollectionEndpoint(), getTelegramEndpoint()].filter(Boolean);
+  const endpoints = [getLeadCollectionEndpoint()].filter(Boolean);
   if (!endpoints.length) {
     return;
   }
