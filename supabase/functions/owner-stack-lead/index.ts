@@ -13,17 +13,34 @@ type LeadPayload = {
   [key: string]: unknown;
 };
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": Deno.env.get("CORS_ALLOW_ORIGIN") || "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+const defaultAllowedOrigins = [
+  "https://innergclaw.github.io",
+  "https://ownyourweb.xyz",
+  "https://www.ownyourweb.xyz",
+];
 
-function json(data: unknown, status = 200) {
+function corsHeadersFor(req: Request) {
+  const origin = req.headers.get("origin") || "";
+  const envOrigins = (Deno.env.get("OWNER_STACK_ALLOWED_ORIGINS") || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const allowedOrigins = [...defaultAllowedOrigins, ...envOrigins];
+  const allowOrigin = allowedOrigins.includes(origin) ? origin : defaultAllowedOrigins[0];
+
+  return {
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Vary": "Origin",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, accept",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+  };
+}
+
+function json(req: Request, data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      ...corsHeaders,
+      ...corsHeadersFor(req),
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store",
     },
@@ -128,33 +145,33 @@ async function notifyTelegram(lead: {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: corsHeaders });
+    return new Response(null, { status: 204, headers: corsHeadersFor(req) });
   }
 
   if (req.method !== "POST") {
-    return json({ ok: false, error: "Method not allowed" }, 405);
+    return json(req, { ok: false, error: "Method not allowed" }, 405);
   }
 
   let body: LeadPayload;
   try {
     body = await parseBody(req);
   } catch {
-    return json({ ok: false, error: "Invalid request body" }, 400);
+    return json(req, { ok: false, error: "Invalid request body" }, 400);
   }
 
   if (clean(body.website) || clean(body._gotcha)) {
-    return json({ ok: true, skipped: true });
+    return json(req, { ok: true, skipped: true });
   }
 
   const email = clean(body.email, 320).toLowerCase();
   if (!isValidEmail(email)) {
-    return json({ ok: false, error: "A valid email is required" }, 400);
+    return json(req, { ok: false, error: "A valid email is required" }, 400);
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceRoleKey) {
-    return json({ ok: false, error: "Supabase environment is not configured" }, 500);
+    return json(req, { ok: false, error: "Supabase environment is not configured" }, 500);
   }
 
   const supabase = createClient(supabaseUrl, serviceRoleKey);
@@ -176,7 +193,7 @@ Deno.serve(async (req) => {
     .single();
 
   if (insertError) {
-    return json({ ok: false, error: "Database insert failed", details: insertError.message }, 500);
+    return json(req, { ok: false, error: "Database insert failed", details: insertError.message }, 500);
   }
 
   EdgeRuntime.waitUntil(
@@ -193,7 +210,7 @@ Deno.serve(async (req) => {
     })()
   );
 
-  return json({
+  return json(req, {
     ok: true,
     leadId: insertedLead.id,
     database: { ok: true, status: "inserted" },
