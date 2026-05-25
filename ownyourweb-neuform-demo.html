@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OwnYourWeb - GOLABS Style Demo</title>
-  <meta name="description" content="OwnYourWeb demo resized into a GOLABS-inspired testimonial and product interface system.">
+  <title>OwnYourWeb - Business Demo For Sale</title>
+  <meta name="description" content="A for-sale OwnYourWeb business website demo with home, about, contact, service, and credibility sections.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -133,6 +133,23 @@
       gap: 4px;
     }
 
+    .sale-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 18px;
+      border: 1px solid var(--primary);
+      border-radius: 9999px;
+      background: var(--primary);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 20px;
+      text-transform: uppercase;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 12px 30px rgba(245,166,200,.24);
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -191,6 +208,13 @@
       display: grid;
       grid-template-rows: auto 1fr auto;
       padding: 24px;
+    }
+
+    .hero .sale-badge {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      z-index: 2;
     }
 
     .hero::before {
@@ -280,6 +304,12 @@
       gap: 4px;
     }
 
+    .button-row .btn:not(.dark) {
+      border-color: rgba(5, 5, 5, .2);
+      color: var(--ink);
+      background: rgba(255, 255, 255, .55);
+    }
+
     .product-panel {
       min-height: calc(100vh - 98px);
       display: grid;
@@ -302,6 +332,22 @@
       color: var(--ink);
       font-size: 14px;
       font-weight: 700;
+    }
+
+    .mini-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: max-content;
+      max-width: 100%;
+      padding: 8px 12px;
+      border: 1px solid rgba(5,5,5,.2);
+      border-radius: 9999px;
+      background: rgba(255,255,255,.72);
+      color: var(--secondary);
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 20px;
     }
 
     .can-wrap {
@@ -409,6 +455,7 @@
       line-height: 20px;
     }
 
+    .business-sections,
     .social-proof {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -416,6 +463,7 @@
       margin-top: 2px;
     }
 
+    .section-card,
     .quote-card,
     .stat-card {
       min-height: 270px;
@@ -425,6 +473,33 @@
       background: rgba(255, 255, 255, .9);
       color: var(--ink);
       box-shadow: var(--shadow-b);
+    }
+
+    .section-card h2 {
+      max-width: 11ch;
+      font-size: clamp(48px, 5.6vw, 82px);
+      line-height: .88;
+    }
+
+    .section-card p {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22.75px;
+    }
+
+    .section-card.pink {
+      background: var(--primary);
+    }
+
+    .section-card.dark {
+      background: var(--neutral);
+      color: var(--surface);
+    }
+
+    .section-card.dark p {
+      color: rgba(255,255,255,.68);
     }
 
     .quote-card.featured {
@@ -592,6 +667,7 @@
 
       .topbar,
       .grid,
+      .business-sections,
       .social-proof,
       .bottom-strip {
         grid-template-columns: 1fr;
@@ -645,6 +721,7 @@
 
       .hero,
       .product-panel,
+      .section-card,
       .quote-card,
       .stat-card,
       .strip-panel {
@@ -705,87 +782,103 @@
         OwnYourWeb
       </a>
       <nav class="nav" aria-label="Demo navigation">
-        <a href="#proof">Proof</a>
-        <a href="#stack">Stack</a>
-        <a href="#lead">Leads</a>
-        <a href="https://ownyourweb.xyz/">Home</a>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
       </nav>
       <div class="top-actions">
-        <a class="btn" href="#lead">Subscribe</a>
-        <a class="btn light" href="https://ownyourweb.xyz/">Request Build</a>
+        <span class="sale-badge">Demo for sale</span>
+        <a class="btn light" href="#contact">Inquire</a>
       </div>
     </header>
 
-    <section class="grid" aria-label="OwnYourWeb hero">
+    <section id="home" class="grid" aria-label="Business website demo hero">
       <article class="panel glass hero">
-        <span class="kicker">Piersica Alba Hydration Layout</span>
-        <h1>Web systems that keep the pipeline fresh</h1>
+        <span class="sale-badge">For sale on OwnYourWeb</span>
+        <span class="kicker">Premium business website demo</span>
+        <h1>Give your business a clean site that sells the offer</h1>
         <div class="hero-copy">
-          <p>OwnYourWeb turns attention into a clean business flow: landing page, proof section, lead capture, payment path, and follow-up system. This demo is resized into a tight GOLABS-style product interface.</p>
+          <p>This demo is built for a service business, product brand, studio, wellness offer, or local company that needs a polished first impression, clear sections, and a simple way for customers to reach out.</p>
           <div class="button-row">
-            <a class="btn dark" href="#stack">View Stack</a>
-            <a class="btn" href="#proof">See Proof</a>
+            <a class="btn dark" href="#contact">Buy this demo</a>
+            <a class="btn" href="#about">View sections</a>
           </div>
         </div>
       </article>
 
       <article class="panel product-panel" aria-label="Product visual">
         <div class="product-nav">
-          <span>Owner Stack</span>
-          <span>Lead Form</span>
-          <span>Payment Flow</span>
+          <span>Services</span>
+          <span>Reviews</span>
+          <span>Contact</span>
         </div>
+        <span class="mini-note">Ready to customize for your brand</span>
         <div class="can-wrap">
           <div class="halo" aria-hidden="true"></div>
           <div class="can" aria-hidden="true">
-            <span>Owner<br>Fuel</span>
+            <span>Your<br>Brand</span>
           </div>
           <div class="flavor">
-            <strong>Peach proof</strong>
-            <p>Social proof, offer clarity, and signup flow packed into one responsive section.</p>
+            <strong>For sale</strong>
+            <p>Swap in your name, colors, photos, services, and contact information.</p>
           </div>
         </div>
         <div class="thumbs">
-          <div class="thumb"><strong>01</strong><span>Brand clarity</span></div>
-          <div class="thumb"><strong>02</strong><span>Lead capture</span></div>
-          <div class="thumb"><strong>03</strong><span>Client trust</span></div>
+          <div class="thumb"><strong>Home</strong><span>Strong first impression</span></div>
+          <div class="thumb"><strong>About</strong><span>Tell your story</span></div>
+          <div class="thumb"><strong>Contact</strong><span>Capture inquiries</span></div>
         </div>
+      </article>
+    </section>
+
+    <section id="about" class="business-sections" aria-label="Business website sections">
+      <article class="section-card pink">
+        <h2>Show what you offer</h2>
+        <p>Use this section to explain your core services, packages, or product categories in plain language so customers instantly understand what they can buy.</p>
+      </article>
+      <article class="section-card">
+        <h2>Build customer trust</h2>
+        <p>Add testimonials, previous work, press mentions, process notes, certifications, or proof that your business can deliver what it promises.</p>
+      </article>
+      <article class="section-card dark">
+        <h2>Make the next step easy</h2>
+        <p>Guide visitors toward one clear action: call, book, email, request a quote, join the list, or submit a project inquiry.</p>
       </article>
     </section>
 
     <section id="proof" class="social-proof" aria-label="Social proof">
       <article class="quote-card featured">
-        <div class="quote-top"><span>Customer credibility</span><span>★★★★★</span></div>
-        <blockquote>“The page finally explains what we do, shows people why they should trust us, and gives them one clear way to take action.”</blockquote>
-        <div class="quote-name">Local service owner</div>
+        <div class="quote-top"><span>Client-ready proof</span><span>★★★★★</span></div>
+        <blockquote>“This layout gives a business room to explain the offer, show credibility, and move people toward a real inquiry.”</blockquote>
+        <div class="quote-name">Demo use case</div>
       </article>
       <article class="quote-card">
-        <div class="quote-top"><span>Reusable structure</span><span>04/04</span></div>
-        <blockquote>“Every section can become a template: hero, product feature, proof cards, offer block, and email capture.”</blockquote>
-        <div class="quote-name">OwnYourWeb system note</div>
+        <div class="quote-top"><span>Customizable sections</span><span>04/04</span></div>
+        <blockquote>“The structure can become a homepage, product landing page, service page, or campaign page with your own business content.”</blockquote>
+        <div class="quote-name">OwnYourWeb demo note</div>
       </article>
       <article class="stat-card">
-        <div class="stat-value">19K</div>
-        <p>Fast design systems, lead magnets, client previews, and landing pages can all share the same production-ready frame.</p>
+        <div class="stat-value">1 Day</div>
+        <p>This demo can be customized quickly for a business that already has a logo, offer, contact info, and a few photos ready.</p>
       </article>
     </section>
 
     <section id="stack" class="bottom-strip" aria-label="Owner Stack breakdown">
       <article class="strip-panel dark">
-        <h2>Prompt to production owner workflow</h2>
-        <p>Built as a grid-first system with glass surfaces, hard contrast borders, 4px rhythm, and expressive-but-controlled motion.</p>
+        <h2>What comes with this demo</h2>
+        <p>This page is a for-sale starter website design. OwnYourWeb can update the copy, brand colors, section names, CTA, and contact flow for the buyer.</p>
         <div class="steps">
-          <div class="step">Logo + identity</div>
-          <div class="step">Website + domain</div>
-          <div class="step">Lead + payment flow</div>
+          <div class="step">Home section</div>
+          <div class="step">About + proof sections</div>
+          <div class="step">Contact inquiry block</div>
         </div>
       </article>
-      <article id="lead" class="strip-panel email-box">
-        <h2>Get the stack</h2>
-        <label for="email">Send the demo link</label>
+      <article id="contact" class="strip-panel email-box">
+        <h2>Buy this demo</h2>
+        <label for="email">Request this layout for your business</label>
         <div class="email-row">
-          <input id="email" type="email" placeholder="owner@business.com">
-          <button type="button">Send</button>
+          <input id="email" type="email" placeholder="yourname@business.com">
+          <button type="button">Inquire</button>
         </div>
       </article>
     </section>
